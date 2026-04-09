@@ -20,7 +20,7 @@ function Login({ darkMode }: LoginProps) {
       if (credentials.username === 'admin' && credentials.password === '123456') {
         localStorage.setItem('isAuthenticated', 'true');
 
-        const userData: UserSession = { name: 'Nour Eddin', role: 'Admin' };
+        const userData: UserSession = { name: 'NourElhuda', role: 'Admin' };
         localStorage.setItem('user', JSON.stringify(userData));
 
         toast.success(`Welcome back, ${userData.name}!`);
