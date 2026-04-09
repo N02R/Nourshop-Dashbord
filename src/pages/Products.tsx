@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import {
   faExclamationCircle, faBoxes, faArrowTrendUp, faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 
-// 1. تعريف واجهة البيانات بناءً على هيكل db.json الخاص بك
+// تعريف واجهة البيانات
 interface Product {
   id: string;
   name: string;
@@ -16,86 +16,48 @@ interface Product {
   status: string; 
   category: string;
   img?: string;
-  stockCount?: number | string; // اختياري حسب الحاجة
+  stockCount?: number | string;
 }
 
 interface ProductsProps {
   darkMode: boolean;
 }
 
+// بيانات افتراضية
+const DEFAULT_PRODUCTS: Product[] = [
+  { id: '101', name: 'Apple iPhone 15', price: 1200, status: 'متوفر', category: 'Electronics', img: 'https://via.placeholder.com/40', stockCount: 50 },
+  { id: '102', name: 'Samsung Galaxy S23', price: 950, status: 'غير متوفر', category: 'Electronics', img: 'https://via.placeholder.com/40', stockCount: 0 },
+  { id: '103', name: 'Sony Headphones', price: 150, status: 'متوفر', category: 'Audio', img: 'https://via.placeholder.com/40', stockCount: 120 },
+  { id: '104', name: 'Nike Air Max', price: 200, status: 'متوفر', category: 'Shoes', img: 'https://via.placeholder.com/40', stockCount: 80 },
+  { id: '105', name: 'Coffee Maker', price: 80, status: 'غير متوفر', category: 'Home Appliances', img: 'https://via.placeholder.com/40', stockCount: 0 },
+];
+
 function Products({ darkMode }: ProductsProps) {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(DEFAULT_PRODUCTS);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("All");
-  const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
-  // رابط السيرفر المحلي (تأكد أن السيرفر يعمل على هذا المنفذ)
-  const API_URL = "http://localhost:5000/products";
-
-  // 2. جلب البيانات من السيرفر
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(API_URL);
-      if (!response.ok) throw new Error("Failed to fetch");
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      toast.error("حدث خطأ أثناء تحميل البيانات من السيرفر");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  // 3. منطق الحذف النهائي من db.json
-  const confirmDelete = async () => {
+  // حذف المنتج
+  const confirmDelete = () => {
     if (productToDelete) {
-      try {
-        const response = await fetch(`${API_URL}/${productToDelete.id}`, {
-          method: 'DELETE',
-        });
-
-        if (response.ok) {
-          setProducts(products.filter(p => p.id !== productToDelete.id));
-          toast.success(`تم حذف ${productToDelete.name} بنجاح`, {
-            style: {
-              borderRadius: '12px',
-              background: darkMode ? '#333' : '#fff',
-              color: darkMode ? '#fff' : '#333',
-            }
-          });
-        } else {
-          throw new Error();
-        }
-      } catch (error) {
-        toast.error("فشل الحذف من السيرفر");
-      } finally {
-        setShowDeleteModal(false);
-        setProductToDelete(null);
-      }
+      setProducts(products.filter(p => p.id !== productToDelete.id));
+      toast.success(`تم حذف ${productToDelete.name} بنجاح`, {
+        style: { borderRadius: '12px', background: darkMode ? '#333' : '#fff', color: darkMode ? '#fff' : '#333' }
+      });
+      setShowDeleteModal(false);
+      setProductToDelete(null);
     }
   };
 
-  // 4. البحث والفلترة
+  // البحث والفلترة
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === "All" || product.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
-
-  if (loading) return (
-    <div className="d-flex flex-column justify-content-center align-items-center p-5" style={{ minHeight: '60vh' }}>
-      <div className="spinner-border text-primary mb-3" role="status"></div>
-      <span className="text-muted fw-bold text-center">جاري تحديث المخزون...</span>
-    </div>
-  );
 
   return (
     <div className={`animate__animated animate__fadeIn p-1 ${darkMode ? 'text-white' : 'text-dark'}`}>
@@ -115,12 +77,12 @@ function Products({ darkMode }: ProductsProps) {
         </button>
       </div>
 
-      {/* Stats Summary - يحسب من بيانات السيرفر */}
+      {/* Stats Summary */}
       <div className="row g-3 mb-4">
         {[
           { label: 'Total Products', val: products.length, icon: faBoxes, color: 'primary' },
-          { label: 'In Stock', val: products.filter(p => p.status === 'متوفر' || p.status === 'In Stock').length, icon: faArrowTrendUp, color: 'success' },
-          { label: 'Out of Stock', val: products.filter(p => p.status !== 'متوفر' && p.status !== 'In Stock').length, icon: faTriangleExclamation, color: 'danger' }
+          { label: 'In Stock', val: products.filter(p => p.status === 'متوفر').length, icon: faArrowTrendUp, color: 'success' },
+          { label: 'Out of Stock', val: products.filter(p => p.status !== 'متوفر').length, icon: faTriangleExclamation, color: 'danger' }
         ].map((stat, i) => (
           <div className="col-12 col-md-4" key={i}>
             <div className={`p-3 rounded-4 shadow-sm d-flex align-items-center gap-3 ${darkMode ? 'bg-dark border border-secondary' : 'bg-white'}`}>
@@ -131,7 +93,7 @@ function Products({ darkMode }: ProductsProps) {
         ))}
       </div>
 
-      {/* Search & Filter Bar */}
+      {/* Search & Filter */}
       <div className={`card border-0 shadow-sm mb-4 p-3 ${darkMode ? 'bg-secondary bg-opacity-10 border border-secondary' : 'bg-white'}`} style={{ borderRadius: '18px' }}>
         <div className="row g-3 align-items-center">
           <div className="col-12 col-md-8 position-relative">
@@ -206,7 +168,7 @@ function Products({ darkMode }: ProductsProps) {
                     </div>
                   </td>
                   <td className="d-none d-lg-table-cell">
-                    <div className={`badge rounded-pill px-3 py-1 ${product.status === 'متوفر' || product.status === 'In Stock' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}`} style={{ fontSize: '11px' }}>
+                    <div className={`badge rounded-pill px-3 py-1 ${product.status === 'متوفر' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}`} style={{ fontSize: '11px' }}>
                        {product.status}
                     </div>
                   </td>
@@ -238,7 +200,7 @@ function Products({ darkMode }: ProductsProps) {
               <div className="modal-body text-center">
                 <div className="mb-3 text-danger fs-1"><FontAwesomeIcon icon={faExclamationCircle} /></div>
                 <h5 className="fw-bold">Delete Product?</h5>
-                <p className="opacity-75 small">Remove <b>{productToDelete?.name}</b> نهائياً من السيرفر؟</p>
+                <p className="opacity-75 small">Remove <b>{productToDelete?.name}</b> نهائياً؟</p>
                 <div className="d-flex gap-2 justify-content-center mt-4">
                   <button className="btn btn-light px-4 rounded-3 fw-bold" onClick={() => setShowDeleteModal(false)}>Cancel</button>
                   <button className="btn btn-danger px-4 rounded-3 shadow-sm fw-bold" onClick={confirmDelete}>Delete Forever</button>
@@ -250,19 +212,8 @@ function Products({ darkMode }: ProductsProps) {
       )}
 
       <style>{`
-        .btn-action {
-          width: 32px;
-          height: 32px;
-          border-radius: 10px;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s ease;
-        }
-        @media (min-width: 768px) {
-          .btn-action { width: 38px; height: 38px; }
-        }
+        .btn-action { width: 32px; height: 32px; border-radius: 10px; border: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        @media (min-width: 768px) { .btn-action { width: 38px; height: 38px; } }
         .btn-action.edit:hover { background: #6c5ce7 !important; color: white !important; }
         .btn-action.delete:hover { background: #e17055 !important; color: white !important; }
       `}</style>
