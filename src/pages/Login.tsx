@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 interface UserCredentials { username: string; password: string; }
 interface UserSession { name: string; role: 'Admin' | 'Editor'; }
 interface LoginProps { darkMode: boolean; }
-
 function Login({ darkMode }: LoginProps) {
   const [credentials, setCredentials] = useState<UserCredentials>({ username: '', password: '' });
   const [error, setError] = useState<string>('');
@@ -39,6 +38,11 @@ function Login({ darkMode }: LoginProps) {
         <div className="text-center mb-4">
           <h2 className="fw-bold" style={{ color: '#6c5ce7' }}>Nourshope 🛍️</h2>
           <p className={`${darkMode ? 'text-light opacity-50' : 'text-muted'} small`}>Smart Store Management - Admin Portal</p>
+        </div>
+
+        {/* ✨ ملاحظة البيانات الافتراضية */}
+        <div className={`alert alert-info py-2 small border-0 text-center`}>
+          Default Login → <b>Username:</b> admin | <b>Password:</b> 123456
         </div>
 
         {error && (
