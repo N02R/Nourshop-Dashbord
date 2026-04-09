@@ -26,4 +26,4 @@ A modern, responsive e-commerce management dashboard built to demonstrate advanc
 
 1. **Clone the Repo:**
    ```bash
-https://github.com/N02R/Nourshop-Dashbord
+https://nourdashbord.netlify.app/
