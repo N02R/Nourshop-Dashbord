@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 interface UserCredentials { username: string; password: string; }
 interface UserSession { name: string; role: 'Admin' | 'Editor'; }
 interface LoginProps { darkMode: boolean; }
+
 function Login({ darkMode }: LoginProps) {
   const [credentials, setCredentials] = useState<UserCredentials>({ username: '', password: '' });
   const [error, setError] = useState<string>('');
@@ -16,6 +17,7 @@ function Login({ darkMode }: LoginProps) {
     setLoading(true);
 
     setTimeout(() => {
+      // بيانات الدخول الافتراضية
       if (credentials.username === 'admin' && credentials.password === '123456') {
         localStorage.setItem('isAuthenticated', 'true');
 
