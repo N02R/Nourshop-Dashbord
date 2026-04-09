@@ -84,7 +84,7 @@ function Navbar({ darkMode, setDarkMode }: NavbarProps) {
           {/* 4. User Profile & Logout */}
           <div className="d-flex align-items-center gap-2 gap-md-3">
             <div className="text-end d-none d-md-block">
-              <p className="mb-0 fw-bold small" style={{ color: darkMode ? '#fff' : '#2d3436', fontSize: '12px' }}>Nour Eddin</p>
+              <p className="mb-0 fw-bold small" style={{ color: darkMode ? '#fff' : '#2d3436', fontSize: '12px' }}>NourElhuda</p>
               <p className="mb-0 fw-medium" style={{ fontSize: '9px', color: '#6c5ce7' }}>Admin</p>
             </div>
             
