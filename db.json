@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "name": "bag",
+      "price": 500,
+      "category": "Accessories",
+      "description": "nice bag",
+      "status": "In Stock",
+      "img": "blob:http://localhost:5173/d8d1b110-d33a-4572-854c-254037879246",
+      "id": "KXU1IwMbIKE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
