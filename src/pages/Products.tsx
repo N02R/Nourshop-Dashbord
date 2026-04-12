@@ -8,7 +8,7 @@ import {
   faExclamationCircle, faBoxes, faArrowTrendUp, faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 
-// تعريف واجهة البيانات
+// 1. تعريف واجهة البيانات (Interface)
 interface Product {
   id: string;
   name: string;
@@ -23,13 +23,14 @@ interface ProductsProps {
   darkMode: boolean;
 }
 
-// بيانات افتراضية
+// 2. تحديث البيانات الافتراضية لتشير إلى مجلد الصور في الـ public
+// ملاحظة: تأكد من تسمية الصور في مجلد public/images بنفس هذه الأسماء
 const DEFAULT_PRODUCTS: Product[] = [
-  { id: '101', name: 'Apple iPhone 15', price: 1200, status: 'متوفر', category: 'Electronics', img: 'https://via.placeholder.com/40', stockCount: 50 },
-  { id: '102', name: 'Samsung Galaxy S23', price: 950, status: 'غير متوفر', category: 'Electronics', img: 'https://via.placeholder.com/40', stockCount: 0 },
-  { id: '103', name: 'Sony Headphones', price: 150, status: 'متوفر', category: 'Audio', img: 'https://via.placeholder.com/40', stockCount: 120 },
-  { id: '104', name: 'Nike Air Max', price: 200, status: 'متوفر', category: 'Shoes', img: 'https://via.placeholder.com/40', stockCount: 80 },
-  { id: '105', name: 'Coffee Maker', price: 80, status: 'غير متوفر', category: 'Home Appliances', img: 'https://via.placeholder.com/40', stockCount: 0 },
+  { id: '101', name: 'Apple iPhone 15', price: 1200, status: 'متوفر', category: 'Electronics', img: '/images/AppleiPhone15.jpg', stockCount: 50 },
+  { id: '102', name: 'Samsung Galaxy S23', price: 950, status: 'غير متوفر', category: 'Electronics', img: '/images/SamsungGalaxyS23.jpg', stockCount: 0 },
+  { id: '103', name: 'Sony Headphones', price: 150, status: 'متوفر', category: 'Audio', img: '/images/SonyHeadphones.jpg', stockCount: 120 },
+  { id: '104', name: 'Nike Air Max', price: 200, status: 'متوفر', category: 'Shoes', img: '/images/NikeAirMax.jpg', stockCount: 80 },
+  { id: '105', name: 'Coffee Maker', price: 80, status: 'غير متوفر', category: 'Home Appliances', img: '/images/CoffeeMaker.jpg', stockCount: 0 },
 ];
 
 function Products({ darkMode }: ProductsProps) {
@@ -145,10 +146,13 @@ function Products({ darkMode }: ProductsProps) {
                   <td className="ps-3 ps-md-4">
                     <div className="d-flex align-items-center py-2">
                       <img 
-                        src={product.img || 'https://via.placeholder.com/40'} 
+                        {/* 3. هنا سيتم استدعاء المسار المكتوب في المصفوفة فوق */}
+                        src={product.img || '/images/default-placeholder.png'} 
                         alt={product.name} 
                         className="rounded-3 shadow-sm me-2 me-md-3 d-none d-sm-block"
                         style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                        {/* إضافة معالج خطأ في حال عدم وجود الصورة */}
+                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40'; }}
                       />
                       <div className="text-truncate" style={{ maxWidth: '150px' }}>
                         <div className="fw-bold mb-0 text-truncate" style={{ fontSize: '13px' }}>{product.name}</div>
