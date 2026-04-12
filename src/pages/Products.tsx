@@ -145,15 +145,13 @@ function Products({ darkMode }: ProductsProps) {
                 <tr key={product.id} className={darkMode ? 'border-secondary' : 'border-light'}>
                   <td className="ps-3 ps-md-4">
                     <div className="d-flex align-items-center py-2">
-                      <img 
-                        {/* 3. هنا سيتم استدعاء المسار المكتوب في المصفوفة فوق */}
-                        src={product.img || '/images/default-placeholder.png'} 
-                        alt={product.name} 
-                        className="rounded-3 shadow-sm me-2 me-md-3 d-none d-sm-block"
-                        style={{ width: '40px', height: '40px', objectFit: 'cover' }}
-                        {/* إضافة معالج خطأ في حال عدم وجود الصورة */}
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40'; }}
-                      />
+<img 
+  src={product.img || '/images/default-placeholder.png'} 
+  alt={product.name} 
+  className="rounded-3 shadow-sm me-2 me-md-3 d-none d-sm-block"
+  style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+  onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40'; }}
+/>
                       <div className="text-truncate" style={{ maxWidth: '150px' }}>
                         <div className="fw-bold mb-0 text-truncate" style={{ fontSize: '13px' }}>{product.name}</div>
                         <small className="text-muted d-block" style={{ fontSize: '10px' }}>ID: #{product.id}</small>
