@@ -29,9 +29,9 @@ function Sidebar({ darkMode }: SidebarProps) {
         darkMode ? 'bg-dark border-end border-secondary' : 'bg-white border-end'
       }`} 
       style={{ 
-        width: '220px', 
+        width: '260px', 
         height: '100vh', 
-        position: 'fixed', 
+        position: 'sticky', 
         top: 0,
         left: 0,
         zIndex: 1030,
