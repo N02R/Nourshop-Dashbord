@@ -29,7 +29,7 @@ function Sidebar({ darkMode }: SidebarProps) {
         darkMode ? 'bg-dark border-end border-secondary' : 'bg-white border-end'
       }`} 
       style={{ 
-        width: '260px', 
+        width: '200px', 
         height: '100vh', 
         position: 'fixed', 
         top: 0,
