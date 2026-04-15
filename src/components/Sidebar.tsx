@@ -83,7 +83,7 @@ function Sidebar({ darkMode }: SidebarProps) {
         
         <div className="text-center">
           <small className="text-muted fw-bold" style={{ fontSize: '9px', letterSpacing: '1px' }}>
-            NOURSHOPE 2026
+            NOURSHOPE 2026 || <a href="https://www.instagram.com/nourr.dev"><i class="fab fa-instagram></i> nourr.dev</a>
           </small>
         </div>
       </div>
