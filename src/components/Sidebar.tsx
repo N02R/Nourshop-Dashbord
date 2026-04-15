@@ -24,78 +24,49 @@ function Sidebar({ darkMode }: SidebarProps) {
   ];
 
   return (
-    <div 
-      className={`d-flex flex-column flex-shrink-0 p-3 shadow-lg sidebar transition-all ${
-        darkMode ? 'bg-dark border-end border-secondary' : 'bg-white border-end'
-      }`}
-    >
+    <div className={`sidebar ${darkMode ? 'dark' : 'light'}`}>
       
       {/* Brand */}
-      <div className="d-flex align-items-center mb-4 px-2">
-        <div 
-          className="rounded-circle d-flex align-items-center justify-content-center me-3 shadow"
-          style={{ 
-            width: '40px', 
-            height: '40px', 
-            background: 'linear-gradient(135deg, #6c5ce7, #8e44ad)' 
-          }}
-        >
+      <div className="brand">
+        <div className="logo">
           <FontAwesomeIcon icon={faStore} className="text-white fs-5" />
         </div>
 
-        <span 
-          className={`fs-5 fw-bold ${darkMode ? 'text-white' : 'text-dark'}`}
-          style={{ letterSpacing: '-0.5px' }}
-        >
-          Nours<span style={{ color: '#6c5ce7' }}>hope</span>
+        <span className="brand-text">
+          Nours<span>hope</span>
         </span>
       </div>
 
-      <hr className={darkMode ? 'text-secondary opacity-25' : 'text-muted opacity-25'} />
+      <hr className="divider" />
 
-      {/* Navigation */}
-      <ul className="nav nav-pills flex-column mb-auto gap-2">
+      {/* Menu */}
+      <ul className="menu">
         {menuItems.map((item) => (
           <li key={item.name}>
             <NavLink 
               to={item.path} 
-              className={({ isActive }) => 
-                `nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 transition-all ${
-                  isActive 
-                    ? 'active-link shadow-sm' 
-                    : (darkMode 
-                        ? 'text-light opacity-75 hover-dark' 
-                        : 'text-secondary hover-light')
-                }`
+              className={({ isActive }) =>
+                `menu-item ${isActive ? 'active' : ''}`
               }
             >
-              <div style={{ width: '25px', textAlign: 'center' }}>
-                <FontAwesomeIcon icon={item.icon} />
-              </div>
-
-              <span className="fw-medium">{item.name}</span>
+              <FontAwesomeIcon icon={item.icon} className="icon" />
+              <span>{item.name}</span>
             </NavLink>
           </li>
         ))}
       </ul>
 
       {/* Footer */}
-      <div className="mt-auto text-center">
-        <small 
-          className="text-muted fw-semibold d-block" 
-          style={{ fontSize: '11px', letterSpacing: '1px' }}
-        >
-          NOURSHOPE 2026
-        </small>
+      <div className="footer">
+        <small>NOURSHOPE 2026</small>
 
         <a 
-          href="https://www.instagram.com/nourr.dev" 
-          target="_blank" 
+          href="https://www.instagram.com/nourr.dev"
+          target="_blank"
           rel="noopener noreferrer"
-          className="text-decoration-none small d-inline-flex align-items-center gap-1 mt-1"
         >
           <FontAwesomeIcon icon={faInstagram} />
-          nourr.dev
+          <span>nourr.dev</span>
         </a>
       </div>
 
@@ -107,33 +78,110 @@ function Sidebar({ darkMode }: SidebarProps) {
           position: fixed;
           top: 0;
           left: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 20px;
           z-index: 1030;
           overflow-y: auto;
         }
 
-        .transition-all { 
-          transition: all 0.3s ease; 
-        }
-        
-        .active-link {
-          background: linear-gradient(45deg, #6c5ce7, #8e44ad) !important;
-          color: white !important;
-          box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3) !important;
+        .dark {
+          background: #1e1e2f;
+          color: white;
+          border-right: 1px solid #333;
         }
 
-        .hover-light:hover { 
-          background-color: #f8f9fa; 
-          color: #6c5ce7 !important;
-          transform: translateX(5px);
+        .light {
+          background: #fff;
+          color: #333;
+          border-right: 1px solid #eee;
         }
 
-        .hover-dark:hover { 
-          background-color: #2d2d2d; 
-          color: white !important;
+        /* Brand */
+        .brand {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
+        .logo {
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(135deg, #6c5ce7, #8e44ad);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+        }
+
+        .brand-text {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .brand-text span {
+          color: #6c5ce7;
+        }
+
+        /* Divider */
+        .divider {
+          opacity: 0.2;
+          margin: 10px 0;
+        }
+
+        /* Menu */
+        .menu {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          flex: 1;
+        }
+
+        .menu-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 12px;
+          border-radius: 10px;
+          text-decoration: none;
+          color: inherit;
+          transition: 0.3s;
+        }
+
+        .menu-item:hover {
           transform: translateX(5px);
+          background: rgba(108, 92, 231, 0.1);
+          color: #6c5ce7;
+        }
+
+        .menu-item.active {
+          background: linear-gradient(45deg, #6c5ce7, #8e44ad);
+          color: white;
+        }
+
+        .icon {
+          width: 20px;
+        }
+
+        /* Footer */
+        .footer {
+          text-align: center;
+          margin-top: auto;
+          font-size: 12px;
+          opacity: 0.8;
+        }
+
+        .footer a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          margin-top: 5px;
+          text-decoration: none;
+          color: inherit;
         }
       `}</style>
-
     </div>
   );
 }
