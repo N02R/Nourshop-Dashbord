@@ -30,7 +30,7 @@ function Sidebar({ darkMode }: SidebarProps) {
       }`} 
       style={{ 
         width: '260px', 
-        height: '100vh', 
+        height: '100%', 
         position: 'sticky', 
         top: 0,
         zIndex: 1030 
