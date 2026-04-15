@@ -25,18 +25,9 @@ function Sidebar({ darkMode }: SidebarProps) {
 
   return (
     <div 
-      className={`d-flex flex-column flex-shrink-0 p-3 shadow-lg transition-all ${
+      className={`d-flex flex-column flex-shrink-0 p-3 shadow-lg sidebar transition-all ${
         darkMode ? 'bg-dark border-end border-secondary' : 'bg-white border-end'
-      }`} 
-      style={{ 
-        width: '260px', 
-        height: '100vh', 
-        position: 'sticky', 
-        top: 0,
-        left: 0,
-        zIndex: 1030,
-        overflowY: 'auto'
-      }}
+      }`}
     >
       
       {/* Brand */}
@@ -53,7 +44,7 @@ function Sidebar({ darkMode }: SidebarProps) {
         </div>
 
         <span 
-          className={`fs-5 fw-bold ${darkMode ? 'text-white' : 'text-dark'}`} 
+          className={`fs-5 fw-bold ${darkMode ? 'text-white' : 'text-dark'}`}
           style={{ letterSpacing: '-0.5px' }}
         >
           Nours<span style={{ color: '#6c5ce7' }}>hope</span>
@@ -73,8 +64,8 @@ function Sidebar({ darkMode }: SidebarProps) {
                   isActive 
                     ? 'active-link shadow-sm' 
                     : (darkMode 
-                        ? 'text-light opacity-75 hover-bg-dark' 
-                        : 'text-secondary hover-bg-light')
+                        ? 'text-light opacity-75 hover-dark' 
+                        : 'text-secondary hover-light')
                 }`
               }
             >
@@ -110,6 +101,16 @@ function Sidebar({ darkMode }: SidebarProps) {
 
       {/* Styles */}
       <style>{`
+        .sidebar {
+          width: 260px;
+          height: 100vh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 1030;
+          overflow-y: auto;
+        }
+
         .transition-all { 
           transition: all 0.3s ease; 
         }
@@ -120,20 +121,16 @@ function Sidebar({ darkMode }: SidebarProps) {
           box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3) !important;
         }
 
-        .hover-bg-light:hover { 
+        .hover-light:hover { 
           background-color: #f8f9fa; 
           color: #6c5ce7 !important;
           transform: translateX(5px);
         }
 
-        .hover-bg-dark:hover { 
+        .hover-dark:hover { 
           background-color: #2d2d2d; 
           color: white !important;
           transform: translateX(5px);
-        }
-
-        .cursor-pointer { 
-          cursor: pointer; 
         }
       `}</style>
 
