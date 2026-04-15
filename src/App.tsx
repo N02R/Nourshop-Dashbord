@@ -2,12 +2,12 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-// استيراد المكونات الثابتة
+// ثابتة
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 
-// Lazy Loading لتحسين الأداء
+// Lazy Loading
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Products = lazy(() => import('./pages/Products'));
 const AddProduct = lazy(() => import('./pages/AddProduct'));
@@ -15,8 +15,7 @@ const Users = lazy(() => import('./pages/Users'));
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark';
+    return localStorage.getItem('theme') === 'dark';
   });
 
   useEffect(() => {
@@ -25,7 +24,6 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [darkMode]);
 
-  // التحقق من تسجيل الدخول
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
   return (
@@ -41,6 +39,7 @@ function App() {
         </div>
       }
     >
+      {/* Toast */}
       <Toaster
         position="top-center"
         toastOptions={{
@@ -51,12 +50,11 @@ function App() {
             boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
             border: darkMode ? '1px solid #444' : '1px solid #eee',
           },
-          success: { iconTheme: { primary: '#6c5ce7', secondary: '#fff' } },
         }}
       />
 
       <Routes>
-        {/* Login Route */}
+        {/* Login */}
         <Route path="/login" element={<Login darkMode={darkMode} />} />
 
         {/* Protected Layout */}
@@ -64,15 +62,22 @@ function App() {
           path="/*"
           element={
             isAuthenticated ? (
-              <div className="d-flex" style={{ minHeight: '100vh', background: darkMode ? '#121212' : '#f8f9fa' }}>
+              <div className="app-shell">
+                
+                {/* Sidebar */}
                 <Sidebar darkMode={darkMode} />
 
-                <div className="flex-grow-1 d-flex flex-column overflow-hidden">
+                {/* Main Area */}
+                <div className="main-area">
+                  
+                  {/* Navbar */}
                   <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
+                  {/* Content */}
                   <main
-                    className={`p-3 p-md-4 flex-grow-1 ${darkMode ? 'bg-dark text-white' : 'bg-light text-dark'}`}
-                    style={{ overflowY: 'auto' }}
+                    className={`app-content ${
+                      darkMode ? 'bg-dark text-white' : 'bg-light text-dark'
+                    }`}
                   >
                     <Routes>
                       <Route index element={<Dashboard darkMode={darkMode} />} />
@@ -80,22 +85,56 @@ function App() {
                       <Route path="add-product" element={<AddProduct darkMode={darkMode} />} />
                       <Route path="edit-product/:id" element={<AddProduct darkMode={darkMode} />} />
                       <Route path="users" element={<Users darkMode={darkMode} />} />
-
-                      {/* Redirect لأي مسار خاطئ داخل Dashboard */}
                       <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                   </main>
+
                 </div>
               </div>
             ) : (
-              // إذا لم يكن المستخدم مسجلاً للدخول
               <Navigate to="/login" replace />
             )
           }
         />
       </Routes>
+
+      {/* Styles */}
+      <style>{`
+        /* ===== Layout Base ===== */
+        .app-shell {
+          min-height: 100vh;
+          display: flex;
+          background: #f8f9fa;
+        }
+
+        /* ===== Sidebar space compensation ===== */
+        .main-area {
+          margin-left: 260px;
+          width: calc(100% - 260px);
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+        }
+
+        /* ===== Content Scroll ===== */
+        .app-content {
+          flex: 1;
+          overflow-y: auto;
+          padding: 20px;
+        }
+
+        /* ===== Responsive (important) ===== */
+        @media (max-width: 768px) {
+          .main-area {
+            margin-left: 0;
+            width: 100%;
+          }
+        }
+      `}</style>
     </Suspense>
   );
 }
+
+export default App;
 
 export default App;
