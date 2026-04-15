@@ -43,9 +43,9 @@ function Login({ darkMode }: LoginProps) {
         </div>
 
         {/* ✨ ملاحظة البيانات الافتراضية */}
-        {/* <div className={`alert alert-info py-2 small border-0 text-center`}>
+         <div className={`alert alert-info py-2 small border-0 text-center`}>
           Default Login → <b>Username:</b> admin | <b>Password:</b> 123456
-        </div> */}
+        </div> 
 
         {error && (
           <div className="alert alert-danger py-2 small border-0">{error}</div>
