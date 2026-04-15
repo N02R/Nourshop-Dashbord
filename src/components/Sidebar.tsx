@@ -33,7 +33,9 @@ function Sidebar({ darkMode }: SidebarProps) {
         height: '100vh', 
         position: 'fixed', 
         top: 0,
-        zIndex: 1030 
+        left: 0,
+        zIndex: 1030,
+        overflowY: auto
       }}
     >
       {/* Brand Section */}
@@ -82,9 +84,16 @@ function Sidebar({ darkMode }: SidebarProps) {
       <div className="mt-auto">
         
         <div className="text-center">
-          <small className="text-muted fw-bold" style={{ fontSize: '9px', letterSpacing: '1px' }}>
-            NOURSHOPE 2026 || <a href="https://www.instagram.com/nourr.dev"><i class="fab fa-instagram></i> nourr.dev</a>
-          </small>
+        <small className="text-muted fw-bold" style={{ fontSize: '11px', letterSpacing: '1px' }}>
+  NOURSHOPE 2026 || 
+  <a 
+    href="https://www.instagram.com/nourr.dev" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i className="fab fa-instagram"></i> nourr.dev
+  </a>
+</small>
         </div>
       </div>
 
