@@ -74,15 +74,15 @@ function Sidebar({ darkMode }: SidebarProps) {
       <style>{`
         .sidebar {
           width: 260px;
-          height: 100%;
           position: sticky;
-          top: 0;
-          left: 0;
+         left: 0; top: 0; bottom: 0;
           display: flex;
           flex-direction: column;
           padding: 20px;
           z-index: 1030;
-          overflow-y: auto;
+           overflow-y: auto;
+  overflow-x: hidden;
+            
         }
 
         .dark {
