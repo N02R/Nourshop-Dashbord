@@ -74,7 +74,7 @@ function Sidebar({ darkMode }: SidebarProps) {
       <style>{`
         .sidebar {
           width: 260px;
-          height: 100vh;
+          height: 100%;
           position: fixed;
           top: 0;
           left: 0;
